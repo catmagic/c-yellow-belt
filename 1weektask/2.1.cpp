@@ -28,6 +28,10 @@ public:
         for(size_t i=0;i<n;++i)
         {
             matrix[i].resize(m);
+            for(size_t j=0;j<m;++j)
+            {
+                matrix.set(i,j,0);
+            }
         }
     }
     void set(size_t i,size_t j,int num)
