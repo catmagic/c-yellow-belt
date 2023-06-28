@@ -48,6 +48,11 @@ public:
     {
         return this->n==matrix.n&&this->m==matrix.m&&this->matrix==matrix.matrix;
     }
+    pair<size_t,size_t> size()const
+    {
+        return {n,m};
+    }
+
 private:
     size_t n,m;
     vector<vector<int>> matrix;
