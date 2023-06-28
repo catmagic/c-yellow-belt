@@ -61,13 +61,13 @@ istream& operator>>(istream& in,Matrix& matrix)
 {
     size_t n,m;
     int tmp;
-    cin>>n>>m;
-    matrix.resize(n,m);
+    in>>n>>m;
+    matrix.Reset(n,m);
     for(size_t i=0;i<n;++i)
     {
         for(size_t j=0;j<m;++j)
         {
-            cin>>tmp;
+            in>>tmp;
             matrix.set(i,j,tmp);
         }
     }
