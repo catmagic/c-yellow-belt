@@ -40,6 +40,10 @@ public:
     {
         matrix[i][j]=num;
     }
+    int get(size_t i,size_t j)const
+    {
+        return matrix[i][j];
+    }
     bool operator==(const Matrix& matrix)
     {
         return this->n==matrix.n&&this->m==matrix.m&&this->matrix==matrix.matrix;
