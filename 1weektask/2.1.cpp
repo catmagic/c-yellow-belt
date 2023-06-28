@@ -15,7 +15,7 @@ class Matrix
 {
 public:
     Matrix(){n=0;m=0;}
-    void resize(size_t n,size_t m)
+    void Reset(size_t n,size_t m)
     {
         if(n==0||m==0)
         {
@@ -59,13 +59,28 @@ istream& operator>>(istream& in,Matrix& matrix)
     return in;
 
 }
+ostream& operator<<(ostream& out,const Matrix& matrix)
+{
+    auto sizeM=matrix.size();
+    out<<sizeM.first<<" "<<sizeM.second<<endl;
+    for(size_t i=0;i<sizeM.first;++i)
+    {
+        for(size_t j=0;j<sizeM.second;++j)
+        {
+            out <<matrix.get(i,j)<<" ";
+        }
+        out<<endl;
+    }
+    return out;
+
+}
 
 int main() {
   Matrix one;
   Matrix two;
 
   cin >> one >> two;
-  cout<<(one==two);
-  //cout << one + two << endl;
+ // cout<<(one==two);
+  cout << one + two << endl;
   return 0;
 }
