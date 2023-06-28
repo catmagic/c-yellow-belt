@@ -25,6 +25,8 @@ public:
             return;
         }
         matrix.resize(n);
+        this->n=n;
+        this->m=m;
         for(size_t i=0;i<n;++i)
         {
             matrix[i].resize(m);
