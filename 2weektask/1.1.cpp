@@ -102,7 +102,19 @@ public:
     return {result};
   }
 
-  StopsForBusResponse GetStopsForBus(const string& bus) const {
+  StopsForBusResponse GetStopsForBus(const string& bus) const
+  {
+    vector<string> result;
+    auto it =buses_to_stops.find(bus);
+    if(it!=buses_to_stops.end())
+    {
+        for(const string stop:buses_to_stops.at(bus))
+        {
+            result.push_back(stop);
+        }
+
+    }
+    return {result};
     // Реализуйте этот метод
   }
 
