@@ -87,9 +87,19 @@ public:
         }
   }
 
-  BusesForStopResponse GetBusesForStop(const string& stop) const {
-  return stops_to_buses[stop];
-    // Реализуйте этот метод
+  BusesForStopResponse GetBusesForStop(const string& stop) const
+  {
+    vector<string> result;
+    auto it =stops_to_buses.find(stop);
+    if(it!=stops_to_buses.end())
+    {
+        for(const string bus:stops_to_buses.at(stop))
+        {
+            result.push_back(bus);
+        }
+
+    }
+    return {result};
   }
 
   StopsForBusResponse GetStopsForBus(const string& bus) const {
@@ -121,10 +131,10 @@ int main() {
       cout << bm.GetBusesForStop(q.stop) << endl;
       break;
     case QueryType::StopsForBus:
-      cout << bm.GetStopsForBus(q.bus) << endl;
+   //   cout << bm.GetStopsForBus(q.bus) << endl;
       break;
     case QueryType::AllBuses:
-      cout << bm.GetAllBuses() << endl;
+    //  cout << bm.GetAllBuses() << endl;
       break;
     }
   }
