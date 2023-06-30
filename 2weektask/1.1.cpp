@@ -46,7 +46,7 @@ istream& operator >> (istream& is, Query& q) {
 
 struct BusesForStopResponse {
   // Наполните полями эту структуру
-  vector<string> stops;
+  vector<string> buses;
 };
 
 ostream& operator << (ostream& os, const BusesForStopResponse& r) {
@@ -59,6 +59,7 @@ ostream& operator << (ostream& os, const BusesForStopResponse& r) {
 }
 
 struct StopsForBusResponse {
+    vector<string> stops;
   // Наполните полями эту структуру
 };
 
