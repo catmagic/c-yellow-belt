@@ -159,7 +159,7 @@ Matrix& operator +(const Matrix& lhs,const Matrix& rhs)
     }
     return result[0];
 }
-/*
+
 int main() {
   Matrix one;
   Matrix two;
@@ -167,4 +167,4 @@ int main() {
   cin >> one >> two;
   cout << one + two << endl;
   return 0;
-}*/
+}
