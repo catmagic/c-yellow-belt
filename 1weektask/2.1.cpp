@@ -2,7 +2,6 @@
 #include <fstream>
 #include <stdexcept>
 #include <vector>
-
 using namespace std;
 
 // Реализуйте здесь
@@ -14,9 +13,35 @@ using namespace std;
 class Matrix
 {
 public:
-    Matrix(){n=0;m=0;}
-    void Reset(size_t n,size_t m)
+    Matrix()
     {
+        n=0;
+        m=0;
+    }
+     int&   At(int i,int j)
+    {
+
+            return matrix.at(i).at(j);
+        throw  out_of_range("");
+    }
+      int  At(int i,int j)const
+    {
+        if(((0<=i)&&(i<n))&&((0<=i)&&(j<m)))
+        {
+            return matrix[i][j];
+        }
+        throw  out_of_range("" );
+    }
+    Matrix(pair<int,int> pr)
+    {
+        Matrix(pr.first,pr.second);
+    }
+    Matrix(int n,int m)
+    {
+        if(n<0||m<0)
+        {
+            throw  out_of_range("");
+        }
         if(n==0||m==0)
         {
             this->n=0;
@@ -27,24 +52,52 @@ public:
         matrix.resize(n);
         this->n=n;
         this->m=m;
-        for(size_t i=0;i<n;++i)
+        for(int i=0;i<n;++i)
         {
             matrix[i].resize(m);
-            for(size_t j=0;j<m;++j)
+            for(int j=0;j<m;++j)
             {
-                matrix.set(i,j,0);
+                matrix[i][j]=0;
             }
         }
     }
-    void set(size_t i,size_t j,int num)
+    void Reset(int n,int m)
     {
-        matrix[i][j]=num;
+        if(n<0||m<0)
+        {
+            throw  out_of_range("");
+        }
+        if(n==0||m==0)
+        {
+            this->n=0;
+            this->m=0;
+            matrix.resize(0);
+            return;
+        }
+        matrix.resize(n);
+        this->n=n;
+        this->m=m;
+        for(int i=0;i<n;++i)
+        {
+            matrix[i].resize(m);
+            for(int j=0;j<m;++j)
+            {
+                matrix[i][j]=0;
+            }
+        }
     }
-    int get(size_t i,size_t j)const
+
+
+    int GetNumRows()const
     {
-        return matrix[i][j];
+        return n;
     }
-    bool operator==(const Matrix& matrix)
+    int GetNumColumns()const
+    {
+        return m;
+    }
+
+    bool operator==(const Matrix& matrix)const
     {
         return this->n==matrix.n&&this->m==matrix.m&&this->matrix==matrix.matrix;
     }
@@ -59,16 +112,16 @@ private:
 };
 istream& operator>>(istream& in,Matrix& matrix)
 {
-    size_t n,m;
+    int n,m;
     int tmp;
     in>>n>>m;
     matrix.Reset(n,m);
-    for(size_t i=0;i<n;++i)
+    for(int i=0;i<n;++i)
     {
-        for(size_t j=0;j<m;++j)
+        for(int j=0;j<m;++j)
         {
             in>>tmp;
-            matrix.set(i,j,tmp);
+            matrix.At(i,j)=tmp;
         }
     }
     return in;
@@ -82,20 +135,36 @@ ostream& operator<<(ostream& out,const Matrix& matrix)
     {
         for(size_t j=0;j<sizeM.second;++j)
         {
-            out <<matrix.get(i,j)<<" ";
+            out <<matrix.At(i,j)<<" ";
         }
         out<<endl;
     }
     return out;
 
 }
-
+Matrix& operator +(const Matrix& lhs,const Matrix& rhs)
+{
+    if(lhs.size()!=rhs.size())
+    {
+        throw  invalid_argument("");
+    }
+    Matrix *result=new Matrix(lhs.size().first,lhs.size().second);
+    for(int i=0;i<lhs.GetNumRows();++i)
+    {
+        for(int j=0;j<lhs.GetNumColumns();++j)
+        {
+           // cout<<"nya "<<result->size().first<<"   "<<result->size().second<<endl;
+            result[0].At(i,j)=lhs.At(i,j)+rhs.At(i,j);
+        }
+    }
+    return result[0];
+}
+/*
 int main() {
   Matrix one;
   Matrix two;
 
   cin >> one >> two;
- // cout<<(one==two);
   cout << one + two << endl;
   return 0;
-}
+}*/
