@@ -144,10 +144,10 @@ int main() {
       cout << bm.GetBusesForStop(q.stop) << endl;
       break;
     case QueryType::StopsForBus:
-   //   cout << bm.GetStopsForBus(q.bus) << endl;
+      cout << bm.GetStopsForBus(q.bus) << endl;
       break;
     case QueryType::AllBuses:
-    //  cout << bm.GetAllBuses() << endl;
+      cout << bm.GetAllBuses() << endl;
       break;
     }
   }
