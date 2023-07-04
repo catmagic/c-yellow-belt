@@ -1,6 +1,11 @@
+#include<iostream>
 #include<map>
+#include<tuple>
+#include<string>
+using namespace std;
+
 // Перечислимый тип для статуса задачи
-enum class TaskStatus {
+/*enum class TaskStatus {
   NEW,          // новая
   IN_PROGRESS,  // в разработке
   TESTING,      // на тестировании
@@ -9,14 +14,13 @@ enum class TaskStatus {
 
 // Объявляем тип-синоним для map<TaskStatus, int>,
 // позволяющего хранить количество задач каждого статуса
-using TasksInfo = map<TaskStatus, int>;
-
+using TasksInfo = map<TaskStatus, int>;*/
 class TeamTasks {
 public:
   // Получить статистику по статусам задач конкретного разработчика
-  const TasksInfo& GetPersonTasksInfo(const string& person) const
+  const TasksInfo& GetPersonTasksInfo(const string& person) 
   {
-      return team_task.at(person);
+      return team_task[person];
   }
 
   // Добавить новую задачу (в статусе NEW) для конкретного разработчитка
@@ -30,15 +34,19 @@ public:
   tuple<TasksInfo, TasksInfo> PerformPersonTasks(
       const string& person, int task_count)
     {
-        TasksInfo update={{TaskStatus::NEW,0},{TaskStatus::IN_PROGRESS,0},{TaskStatus::TESTING,0}{TaskStatus::DONE,0}};
+        TasksInfo update={{TaskStatus::NEW,0},{TaskStatus::IN_PROGRESS,0},{TaskStatus::TESTING,0},{TaskStatus::DONE,0}};
         TasksInfo untouche=GetPersonTasksInfo(person);
-
-        while(task_count!=0&&TaskExist(person))
+        untouche[TaskStatus::DONE]=0;
+        while(task_count>0&&TaskExist(person))
         {
             --task_count;
             TaskStatus current_status=min_status_task(person);
             if(current_status!=TaskStatus::DONE)
             {
+             /* cout<<"(untouche):";
+              PrintTasksInfo(untouche);
+               cout<<"(update):";
+              PrintTasksInfo(update);*/
                 if(untouche[current_status])
                 {
                     --untouche[current_status];
@@ -48,13 +56,26 @@ public:
                     --update[current_status];
                 }
                 ++update[next(current_status)];
+                --team_task[person][current_status];
                 ++team_task[person][next(current_status)];
             }
         }
-        return make_pair(update,untouche);
+        return make_pair(simple(update),simple(untouche));
     }
 private:
-    TaskStatus& next(const TaskStatus& cur)
+  TasksInfo simple(const TasksInfo tasks)
+  {
+    TasksInfo result;
+    for(const auto task:tasks)
+    {
+      if(task.second)
+      {
+        result[task.first]=task.second;
+      }
+    }
+    return result;
+  }
+    TaskStatus next(const TaskStatus& cur)
     {
         switch (cur)
         {
@@ -77,9 +98,10 @@ private:
             return false;
         }
         bool result=false;
-        for(const auto tasksinfo:it)
+        for(const auto  tasksinfo:it->second)
         {
-            result|=tasksinfo.second;
+          if(tasksinfo.first!=TaskStatus::DONE){
+            result|=tasksinfo.second;}
         }
         return result;
     }
@@ -109,30 +131,57 @@ void PrintTasksInfo(TasksInfo tasks_info) {
 
 int main() {
   TeamTasks tasks;
-  tasks.AddNewTask("Ilia");
-  for (int i = 0; i < 3; ++i) {
-    tasks.AddNewTask("Ivan");
+  for (int i = 0; i < 5; ++i) {
+    tasks.AddNewTask("Alice");
   }
-  cout << "Ilia's tasks: ";
-  PrintTasksInfo(tasks.GetPersonTasksInfo("Ilia"));
-  cout << "Ivan's tasks: ";
-  PrintTasksInfo(tasks.GetPersonTasksInfo("Ivan"));
+ 
 
   TasksInfo updated_tasks, untouched_tasks;
 
   tie(updated_tasks, untouched_tasks) =
-      tasks.PerformPersonTasks("Ivan", 2);
+      tasks.PerformPersonTasks("Alice", 5);
   cout << "Updated Ivan's tasks: ";
   PrintTasksInfo(updated_tasks);
   cout << "Untouched Ivan's tasks: ";
   PrintTasksInfo(untouched_tasks);
-
+  
+  
   tie(updated_tasks, untouched_tasks) =
-      tasks.PerformPersonTasks("Ivan", 2);
+      tasks.PerformPersonTasks("Alice", 5);
   cout << "Updated Ivan's tasks: ";
   PrintTasksInfo(updated_tasks);
   cout << "Untouched Ivan's tasks: ";
   PrintTasksInfo(untouched_tasks);
+  
+  tie(updated_tasks, untouched_tasks) =
+      tasks.PerformPersonTasks("Alice", 1);
+  cout << "Updated Ivan's tasks: ";
+  PrintTasksInfo(updated_tasks);
+  cout << "Untouched Ivan's tasks: ";
+  PrintTasksInfo(untouched_tasks);
+  
+  
+  
+  for (int i = 0; i < 5; ++i) {
+    tasks.AddNewTask("Alice");
+  }
+
+   tie(updated_tasks, untouched_tasks) =
+      tasks.PerformPersonTasks("Alice", 2);
+  cout << "Updated Ivan's tasks: ";
+  PrintTasksInfo(updated_tasks);
+  cout << "Untouched Ivan's tasks: ";
+  PrintTasksInfo(untouched_tasks);
+  
+  PrintTasksInfo(tasks.GetPersonTasksInfo("Alice"));
+           tie(updated_tasks, untouched_tasks) =
+      tasks.PerformPersonTasks("Alice", 4 );
+  cout << "Updated Ivan's tasks: ";
+  PrintTasksInfo(updated_tasks);
+  cout << "Untouched Ivan's tasks: ";
+  PrintTasksInfo(untouched_tasks);    
+                 
+                   PrintTasksInfo(tasks.GetPersonTasksInfo("Alice"));
 
   return 0;
 }
