@@ -35,7 +35,11 @@ public:
       const string& person, int task_count)
     {
         TasksInfo update={{TaskStatus::NEW,0},{TaskStatus::IN_PROGRESS,0},{TaskStatus::TESTING,0},{TaskStatus::DONE,0}};
-        TasksInfo untouche=GetPersonTasksInfo(person);
+        if(team_task.find(person)==team_task.end())
+        {
+          return  make_pair(TasksInfo{},TasksInfo{});
+        }
+        TasksInfo untouche=team_task[person];
         untouche[TaskStatus::DONE]=0;
         while(task_count>0&&TaskExist(person))
         {
