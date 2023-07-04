@@ -31,20 +31,43 @@ public:
       const string& person, int task_count)
     {
         TasksInfo update={{TaskStatus::NEW,0},{TaskStatus::IN_PROGRESS,0},{TaskStatus::TESTING,0}{TaskStatus::DONE,0}};
-        TasksInfo untouche={{TaskStatus::NEW,0},{TaskStatus::IN_PROGRESS,0},{TaskStatus::TESTING,0}{TaskStatus::DONE,0}};
-        if(TaskExist(person))
-        {
-            for(const auto task:GetPersonTasksInfo(person))
-            {
-                untouche[task.first]=task.second;
-            }
-        }
+        TasksInfo untouche=GetPersonTasksInfo(person);
+
         while(task_count!=0&&TaskExist(person))
         {
-            cu
+            --task_count;
+            TaskStatus current_status=min_status_task(person);
+            if(current_status!=TaskStatus::DONE)
+            {
+                if(untouche[current_status])
+                {
+                    --untouche[current_status];
+                }
+                else
+                {
+                    --update[current_status];
+                }
+                ++update[next(current_status)];
+                ++team_task[person][next(current_status)];
+            }
         }
+        return make_pair(update,untouche);
     }
 private:
+    TaskStatus& next(const TaskStatus& cur)
+    {
+        switch (cur)
+        {
+            case TaskStatus::NEW:
+                return TaskStatus::IN_PROGRESS;
+            case TaskStatus::IN_PROGRESS:
+                return TaskStatus::TESTING;
+            default:
+                return TaskStatus::DONE;
+        }
+
+
+    }
     map<string,TasksInfo> team_task;
     bool TaskExist(const string& person)const
     {
