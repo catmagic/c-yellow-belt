@@ -51,9 +51,13 @@ struct BusesForStopResponse {
 
 ostream& operator << (ostream& os, const BusesForStopResponse& r) {
 
-  if(r.stops.size()==0)
+  if(r.buses.size()==0)
   {
     return os<<"No stop"<<endl;
+  }
+  for(const string & bus:r.buses)
+  {
+	  os<<bus<<" ";
   }
   return os;
 }
@@ -69,11 +73,24 @@ ostream& operator << (ostream& os, const StopsForBusResponse& r) {
 }
 
 struct AllBusesResponse {
-  // Наполните полями эту структуру
+
+	map<string, vector<string>> buses_to_stops;
 };
 
 ostream& operator << (ostream& os, const AllBusesResponse& r) {
   // Реализуйте эту функцию
+  if(r.buses_to_stops.size()==0)
+  {
+	  return os<<"No buses";
+  }
+	for(const auto bus_and_stops:r.buses_to_stops)
+	{
+		os<<"Bus "<<bus_and_stops.first<<":";
+		for(const auto stop:bus_and_stops.second)
+		{
+			os<<" "<<stop;
+		}os<<endl;
+	}
   return os;
 }
 
@@ -121,6 +138,7 @@ public:
 
   AllBusesResponse GetAllBuses() const {
     // Реализуйте этот метод
+	  return  {buses_to_stops};
   }
   map<string, vector<string>> buses_to_stops, stops_to_buses;
 };
