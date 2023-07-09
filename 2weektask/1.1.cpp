@@ -60,12 +60,43 @@ ostream &operator<<(ostream &os, const BusesForStopResponse &r) {
 }
 
 struct StopsForBusResponse {
-  vector<string> stops;
+ 	string bus;
+
+  map<string, vector<string>> buses_to_stops, stops_to_buses;
+	
+
   // Наполните полями эту структуру
 };
 
 ostream &operator<<(ostream &os, const StopsForBusResponse &r) {
   // Реализуйте эту функцию
+	auto itstop=r.buses_to_stops.find(r.bus);
+	if(r.buses_to_stops.cend()==itstop)
+	{
+		return os<<"No bus";
+	}
+	
+    for(const auto stop:itstop->second)
+	{
+		auto itbus=r.stops_to_buses.find(stop);
+		os<<"Stop "<<stop<<":";
+		if(itbus->second.size()==1)
+		{
+			os<<" no interchange";
+		}
+		else
+		{
+			for(const auto bus:itbus->second)
+			{
+				if(bus!=r.bus)
+				{
+					os<<" "<<bus;
+				}
+			}
+		}
+		os<<endl;
+	}
+  
   return os;
 }
 
@@ -117,7 +148,7 @@ public:
         result.push_back(stop);
       }
     }
-    return {result};
+    return {bus,buses_to_stops,stops_to_buses};
     // Реализуйте этот метод
   }
 
