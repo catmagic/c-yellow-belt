@@ -15,8 +15,8 @@ int main()
 		char op;
 		string number;
 		cin>>op>>number;
-		total.push_front("(");
-		total.push_back(") "+op+" "+number);
+		total.push_front(to_string("("));
+		total.push_back(to_string(") ")+op+" "+number);
 
 	}
 	for(auto string s:total)
