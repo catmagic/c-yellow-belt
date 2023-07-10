@@ -1,10 +1,13 @@
 #include<iostream>
 #include<string>
+#include<deque>
 using namespace std;
 int main()
 {
-	string result;
-	cin>>result;
+    deque<string> total;
+	string tmp;
+	cin>>tmp;
+	total.push_back(tmp);
 	int n;
 	cin>>n;
 	for(int i=0;i<n;++i)
@@ -12,9 +15,14 @@ int main()
 		char op;
 		string number;
 		cin>>op>>number;
-		result="("+result+") "+op+" "+number;
-		
+		total.push_front("(");
+		total.push_back(") "+op+" "+number);
+
 	}
-	cout<<result;
+	for(auto string s:total)
+	{
+        cout<<s;
+	}
+	cout<<endl;
 	return 0;
 }
