@@ -12,7 +12,7 @@ int main()
 		char op;
 		string number;
 		cin>>op>>number;
-		result="("+result+")"+op+number;
+		result="("+result+") "+op+" "+number;
 		
 	}
 	cout<<result;
