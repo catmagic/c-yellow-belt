@@ -15,11 +15,11 @@ int main()
 		char op;
 		string number;
 		cin>>op>>number;
-		total.push_front(to_string("("));
-		total.push_back(to_string(") ")+op+" "+number);
+		total.push_front(string("("));
+		total.push_back(string(") ")+op+" "+number);
 
 	}
-	for(auto string s:total)
+	for(const string& s:total)
 	{
         cout<<s;
 	}
