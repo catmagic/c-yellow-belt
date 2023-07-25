@@ -4,11 +4,26 @@
 
 using namespace std;
 
-
-class Student {
+Class Man
+{
+public:
+	Man(string name,string role):Name(name),Role(role){}
+	string role_name()
+	{
+		return Role+": "+Name;
+	}
+	void Wakl(string destination)
+	{
+		cout<<role_name()<< " walks to: " << destination << endl;
+	}
+public:
+	const string Name;
+	const string Role;
+}
+class Student :man{
 public:
 
-    Student(string name, string favouriteSong) {
+    Student(string name, string favouriteSong):Man(Name,"Student") {
         Name = name;
         FavouriteSong = favouriteSong;
     }
@@ -18,12 +33,13 @@ public:
     }
 
     void Walk(string destination) {
-        cout << "Student: " << Name << " walks to: " << destination << endl;
-        cout << "Student: " << Name << " sings a song: " << FavouriteSong << endl;
+      	dynamic_cast<Man>this.Walk();
+	SingSong();
+    
     }
 
     void SingSong() {
-        cout << "Student: " << Name << " sings a song: " << FavouriteSong << endl;
+        cout << role_name()<< " sings a song: " << FavouriteSong << endl;
     }
 
 public:
@@ -41,43 +57,22 @@ public:
     }
 
     void Teach() {
-        cout << "Teacher: " << Name << " teaches: " << Subject << endl;
+        cout << role_name()<< " teaches: " << Subject << endl;
     }
 
-    void Walk(string destination) {
-        cout << "Teacher: " << Name << " walks to: " << destination << endl;
-    }
 
 public:
-    string Name;
     string Subject;
 };
 
 
-class Policeman {
+class Policeman:Man {
 public:
-    Policeman(string name) {
-        Name = name;
-    }
+    Policeman(string name):Man(name,"Policeman"){}
 
-    void Check(Teacher t) {
-        cout << "Policeman: " << Name << " checks Teacher. Teacher's name is: " << t.Name << endl;
+    void Check(Man* m) {
+        cout << role_name()<< " checks "<<m.Role<<". "<<m.Role<<"'s name is: " << m.Name << endl;
     }
-
-    void Check(Student s) {
-        cout << "Policeman: " << Name << " checks Student. Student's name is: " << s.Name << endl;
-    }
-
-    void Check(Policeman p) {
-        cout << "Policeman: " << Name << " checks Policeman. Policeman's name is: " << p.Name << endl;
-    }
-
-    void Walk(string destination) {
-        cout << "Policeman: " << Name << " walks to: " << destination << endl;
-    }
-
-public:
-    string Name;
 };
 
 
