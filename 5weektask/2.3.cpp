@@ -23,38 +23,28 @@ public:
 class Student :man{
 public:
 
-    Student(string name, string favouriteSong):Man(Name,"Student") {
-        Name = name;
-        FavouriteSong = favouriteSong;
-    }
+	Student(string name, string favouriteSong):Man(Name,"Student"),FavouriteSong(favouriteSong){}
 
     void Learn() {
-        cout << "Student: " << Name << " learns" << endl;
+        cout << role_name() << " learns" << endl;
     }
-
+	void SingSong() {
+        cout << role_name()<< " sings a song: " << FavouriteSong << endl;
+    }
     void Walk(string destination) {
       	dynamic_cast<Man>this.Walk();
 	SingSong();
     
     }
-
-    void SingSong() {
-        cout << role_name()<< " sings a song: " << FavouriteSong << endl;
-    }
-
 public:
-    string Name;
-    string FavouriteSong;
+    const string FavouriteSong;
 };
 
 
 class Teacher {
 public:
 
-    Teacher(string name, string subject) {
-        Name = name;
-        Subject = subject;
-    }
+    Teacher(string name, string subject):Man(name,"Teacher"),Subject(subject) {}
 
     void Teach() {
         cout << role_name()<< " teaches: " << Subject << endl;
@@ -62,7 +52,7 @@ public:
 
 
 public:
-    string Subject;
+    const string Subject;
 };
 
 
@@ -76,23 +66,13 @@ public:
 };
 
 
-void VisitPlaces(Teacher t, vector<string> places) {
+void VisitPlaces(Man* t, vector<string> places) {
     for (auto p : places) {
         t.Walk(p);
     }
 }
 
-void VisitPlaces(Student s, vector<string> places) {
-    for (auto p : places) {
-        s.Walk(p);
-    }
-}
 
-void VisitPlaces(Policeman pol, vector<string> places) {
-    for (auto p : places) {
-        pol.Walk(p);
-    }
-}
 
 
 int main() {
