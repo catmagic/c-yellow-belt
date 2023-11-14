@@ -34,6 +34,15 @@ void PrintStats(vector<Person> persons)
 {
     sort(persons.begin(),persons.end(),[](Person lhs,Person rhs){return lhs.age<rhs.age;});
     cout<<"Median age = "<<ComputeMedianAge(persons.begin(),persons.end())<<endl;
+    auto itM=std::partition(persons.begin(),persons.end(),[](Person &a){return a.gender==Gender::FEMALE;});
+    cout<<"Median age for females = "<<ComputeMedianAge(persons.begin(),itM)<<endl;
+    cout<<"Median age for males = "<<ComputeMedianAge(itM,persons.end())<<endl;
+    auto itME=std::partition(itM,persons.end(),[](Person &a){return a.is_employed==false;});
+    auto itFE=std::partition(persons.begin(),itM,[](Person &a){return a.is_employed==false;});
+    cout<<"Median age for employed females = "<<ComputeMedianAge(itFE,itM)<<endl;
+    cout<<"Median age for unemployed females = "<<ComputeMedianAge(persons.begin(),itFE)<<endl;
+    cout<<"Median age for employed males = "<<ComputeMedianAge(itME,persons.end())<<endl;
+    cout<<"Median age for unemployed males = "<<ComputeMedianAge(itM,itME)<<endl;
 }
 
 int main() {
