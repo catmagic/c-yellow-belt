@@ -5,7 +5,7 @@ using namespace std;
 
 //Тип Gender определён следующим образом:
 
-enum class Gender {
+/*enum class Gender {
   FEMALE,
   MALE
 };
@@ -28,7 +28,7 @@ int ComputeMedianAge(InputIt range_begin, InputIt range_end) {
       }
   );
   return middle->age;
-}
+}*/
 
 void PrintStats(vector<Person> persons)
 {
